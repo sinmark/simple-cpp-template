@@ -48,10 +48,8 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
 endif()
 
 #
-# Enable package managers
+# Enable package manager
 #
-
-include(cmake/Conan.cmake)
 include(cmake/Vcpkg.cmake)
 
 #
