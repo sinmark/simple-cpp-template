@@ -14,7 +14,6 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_TOOLCHAIN_FILE": "vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_CXX_COMPILER": "/usr/bin/c++",
                 "CMAKE_C_COMPILER": "/usr/bin/c++"
             }
@@ -27,7 +26,6 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_CXX_COMPILER": "/usr/bin/c++",
                 "CMAKE_C_COMPILER": "/usr/bin/c++"
             }
