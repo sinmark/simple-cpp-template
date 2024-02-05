@@ -41,9 +41,6 @@ The features section is copied over from the main repository created by Filip.
 
 - **CMakePresets** support,
 
-- **compile_commands.json** gets generated into the root of the repository, so
-  clangd language server can be used with VSC,
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your
