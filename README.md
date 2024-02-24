@@ -16,7 +16,7 @@ mainly focused around vcpkg, CMake, GoogleTest and Visual Studio Code.
   being the default option,
 
 - **Unit testing** support, through _GoogleTest_ (with an option to enable
-  _GoogleMock_),
+  _GoogleMock_) and _Catch2_,
 
 - **Code coverage**, enabled by using the `ENABLE_CODE_COVERAGE` option, through
   _Codecov_ CI integration,
