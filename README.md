@@ -1,27 +1,19 @@
-# Modern C++ Template
+# Simple C++ Template
 
 A quick C++ template for modern CMake projects.
 
-This repo is a fork of modern-cpp-template by Filip Dutescu. I stripped it down
-for it to be easier for someone to understand and modify. It is mainly focused
-around vcpkg, CMake, GoogleTest and Visual Studio Code.
+This repo started of as a copy of modern-cpp-template by Filip Dutescu. I
+stripped it down for it to be easier for someone to understand and modify. It is
+mainly focused around vcpkg, CMake, GoogleTest and Visual Studio Code.
 
 ## Features
 
-The features section is copied over from the main repository created by Filip.
-
 - Modern **CMake** configuration and project,
 
-- An example of a **Clang-Format** config, inspired from the base _Google_
-  model, with minor tweaks. This is aimed only as a starting point, as coding
-  style is a subjective matter, everyone is free to either delete it (for the
-  _LLVM_ default) or supply their own alternative,
+- An example of a **Clang-Format** config,
 
 - **Static analyzers** integration, with _Clang-Tidy_ and _Cppcheck_, the former
   being the default option,
-
-- **Doxygen** support, through the `ENABLE_DOXYGEN` option, which you can enable
-  if you wish to use it,
 
 - **Unit testing** support, through _GoogleTest_ (with an option to enable
   _GoogleMock_),
@@ -43,7 +35,7 @@ The features section is copied over from the main repository created by Filip.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your
+These instructions will enable you to get the template up and running on your
 local machine for development and testing purposes.
 
 ### Prerequisites
@@ -66,18 +58,19 @@ need:
 It is fairly easy to install the project, all you need to do is clone if from
 Github or generate a new repo from it.
 
-If you wish to clone the repository, rather than generate from it, you simply
-need to run:
+After finishing getting a copy of the project, create a new folder in the
+`include/` folder, with the name of your project. Edit
+`cmake/SourcesAndHeaders.cmake` to add your files.
 
-After finishing getting a copy of the project, with any of the methods above,
-create a new folder in the `include/` folder, with the name of your project.
-Edit `cmake/SourcesAndHeaders.cmake` to add your files.
+Initialize the vcpkg submodule and update it with the following commands:
 
-Initialize the vcpkg submodule and update it with git submodule init and
-gitsubmodule update.
+```
+git submodule init
+git submodule update
+```
 
-Open the project in visual studio code. Select the target you want to build in
-lower left corner and after building run it.
+The project has been tested the most with Visual Studio Code, so this is the
+editor I recommend.
 
 More options that you can set for the project can be found in the
 [`cmake/StandardSettings.cmake` file](cmake/StandardSettings.cmake). For certain

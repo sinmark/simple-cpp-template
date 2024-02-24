@@ -3,18 +3,14 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
   CACHE STRING "Vcpkg toolchain file")
 
-#
 # Project details
-#
 project(
   "Project"
   VERSION 0.1.0
   LANGUAGES CXX
 )
 
-#
 # Set project options
-#
 include(cmake/StandardSettings.cmake)
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/Utils.cmake)
@@ -29,9 +25,7 @@ if(UNIX)
   add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>") # this will allow to use same _DEBUG macro available in both Linux as well as Windows - MSCV environment. Easy to put Debug specific code.
 endif(UNIX)
 
-#
 # Setup alternative names
-#
 if(${PROJECT_NAME}_USE_ALT_NAMES)
   string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWERCASE)
   string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPERCASE)
@@ -40,9 +34,7 @@ else()
   set(PROJECT_NAME_UPPERCASE ${PROJECT_NAME})
 endif()
 
-#
 # Prevent building in the source directory
-#
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
   message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.\n")
 endif()
@@ -118,9 +110,7 @@ endif()
 
 message(STATUS "Added all header and implementation files.\n")
 
-#
 # Set the project standard and warnings
-#
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
@@ -132,14 +122,7 @@ set_project_warnings(${PROJECT_NAME})
 
 verbose_message("Applied compiler warnings. Using standard ${CMAKE_CXX_STANDARD}.\n")
 
-#
-# Enable Doxygen
-#
-include(cmake/Doxygen.cmake)
-
-#
 # Project library reference
-#
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
   set(PROJECT_LIBRARY ${PROJECT_NAME}_LIB)
 else()
@@ -212,9 +195,7 @@ endif()
 
 message(STATUS "Finished setting up include directories.")
 
-#
-# Provide alias to library for
-#
+# Provide alias
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
   add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 else()
@@ -223,28 +204,20 @@ endif()
 
 verbose_message("Project is now aliased as ${PROJECT_NAME}::${PROJECT_NAME}.\n")
 
-#
 # Format the project using the `clang-format` target (i.e: cmake --build build --target clang-format)
-#
 add_clang_format_target()
 
-#
 # Unit testing setup
-#
 if(${PROJECT_NAME}_ENABLE_UNIT_TESTING)
   enable_testing()
   message(STATUS "Build unit tests for the project. Tests should always be found in the test folder\n")
   add_subdirectory(test)
 endif()
 
-#
 # Put compile_commands.json into project root
-#
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
   add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${CMAKE_BINARY_DIR}/compile_commands.json
     ${CMAKE_SOURCE_DIR}/compile_commands.json)
 endif()
-
-# If you want support for installation, check the original template specified in the README
