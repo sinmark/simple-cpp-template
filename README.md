@@ -4,7 +4,8 @@ A quick C++ template for modern CMake projects.
 
 This repo started of as a copy of modern-cpp-template by Filip Dutescu. I
 stripped it down for it to be easier for someone to understand and modify. It is
-mainly focused around vcpkg, CMake, GoogleTest and Visual Studio Code.
+mainly focused around vcpkg, CMake, GoogleTest and Catch2. There is also a
+CMakePresets.json which makes Visual Studio Code integration seamless.
 
 ## Features
 
@@ -32,6 +33,8 @@ mainly focused around vcpkg, CMake, GoogleTest and Visual Studio Code.
 - **Ccache** integration, for speeding up rebuild times
 
 - **CMakePresets** support,
+
+- **ASAN and TSAN** support,
 
 ## Getting Started
 
@@ -79,6 +82,21 @@ files.
 
 You can also build and run the executables and test with standard CMake
 commands.
+
+How I usually build the project:
+
+```
+mkdir cmake-build-release
+cd cmake-build-release
+cmake .. -G Ninja
+ninja
+```
+
+To format the codebase via clang-format:
+
+```
+ninja clang-format
+```
 
 ## License
 
