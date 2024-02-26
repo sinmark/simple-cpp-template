@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.19)
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
   CACHE STRING "Vcpkg toolchain file")
@@ -68,6 +68,16 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
   endif()
 
   target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_LIB)
+elseif(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
+  add_library(${PROJECT_NAME} INTERFACE)
+
+  if(${PROJECT_NAME}_VERBOSE_OUTPUT)
+    verbose_message("Found the following headers:")
+
+    foreach(header IN LISTS headers)
+      verbose_message("* ${header}")
+    endforeach()
+  endif()
 else()
   add_library(
     ${PROJECT_NAME}
@@ -110,11 +120,14 @@ endif()
 
 message(STATUS "Added all header and implementation files.\n")
 
-# Set the project standard and warnings
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
+  target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
+else()
+  target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
-if(${PROJECT_NAME}_BUILD_EXECUTABLE)
-  target_compile_features(${PROJECT_NAME}_LIB PUBLIC cxx_std_20)
+  if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+    target_compile_features(${PROJECT_NAME}_LIB PUBLIC cxx_std_20)
+  endif()
 endif()
 
 include(cmake/CompilerWarnings.cmake)
@@ -173,24 +186,33 @@ verbose_message("Successfully added all dependencies and linked against them.")
 #
 
 # Allow usage of header files in the `src` directory, but only for utilities
-target_include_directories(
-  ${PROJECT_NAME}
-  PUBLIC
-  $<INSTALL_INTERFACE:include>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-
-if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
   target_include_directories(
-    ${PROJECT_NAME}_LIB
+    ${PROJECT_NAME}
+    INTERFACE
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  )
+else()
+  target_include_directories(
+    ${PROJECT_NAME}
     PUBLIC
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
   )
+
+  if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+    target_include_directories(
+      ${PROJECT_NAME}_LIB
+      PUBLIC
+      $<INSTALL_INTERFACE:include>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+      PRIVATE
+      ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+  endif()
 endif()
 
 message(STATUS "Finished setting up include directories.")
@@ -215,7 +237,7 @@ if(${PROJECT_NAME}_ENABLE_UNIT_TESTING)
 endif()
 
 # Put compile_commands.json into project root
-if(CMAKE_EXPORT_COMPILE_COMMANDS)
+if(CMAKE_EXPORT_COMPILE_COMMANDS AND NOT ${PROJECT_NAME}_BUILD_HEADERS_ONLY)
   add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${CMAKE_BINARY_DIR}/compile_commands.json

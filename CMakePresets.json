@@ -2,7 +2,7 @@
     "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 15,
+        "minor": 19,
         "patch": 0
     },
     "configurePresets": [
@@ -10,7 +10,7 @@
             "name": "debug",
             "displayName": "Debug",
             "description": "Configure Debug Build (Ninja)",
-            "binaryDir": "${sourceDir}/cmake-${presetName}-build",
+            "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
@@ -22,7 +22,7 @@
             "name": "release",
             "displayName": "Release",
             "description": "Configure Release Build (Ninja)",
-            "binaryDir": "${sourceDir}/cmake-${presetName}-build",
+            "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",

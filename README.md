@@ -48,7 +48,7 @@ can be change to better suit the needs of the developer(s). If you wish to use
 the template _as-is_, meaning using the versions recommended here, then you will
 need:
 
-- **CMake v3.15+** - found at [https://cmake.org/](https://cmake.org/)
+- **CMake v3.19+** - found at [https://cmake.org/](https://cmake.org/)
 
 - **C++ Compiler** - needs to support at least the **C++17** standard, i.e.
   _MSVC_, _GCC_, _Clang_
@@ -71,9 +71,6 @@ Initialize the vcpkg submodule and update it with the following commands:
 git submodule init
 git submodule update
 ```
-
-The project has been tested the most with Visual Studio Code, so this is the
-editor I recommend.
 
 More options that you can set for the project can be found in the
 [`cmake/StandardSettings.cmake` file](cmake/StandardSettings.cmake). For certain
