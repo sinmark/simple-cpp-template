@@ -3,7 +3,8 @@ set(sources
 )
 
 set(exe_sources
-  src/main.cpp
+
+  # src/main.cpp
 )
 
 set(headers
@@ -11,5 +12,5 @@ set(headers
 )
 
 set(test_sources
-  src/tmp_test.cpp
+  test/src/tmp_test.cpp
 )

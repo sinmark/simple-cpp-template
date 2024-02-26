@@ -21,4 +21,6 @@ SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: 'true'
 SpaceInEmptyBlock: true
 Standard: 'Latest'
+DerivePointerAlignment: false
+PointerAlignment: Left
 ...
