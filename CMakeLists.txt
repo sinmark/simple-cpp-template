@@ -237,9 +237,11 @@ if(${PROJECT_NAME}_ENABLE_UNIT_TESTING)
 endif()
 
 # Put compile_commands.json into project root
-if(CMAKE_EXPORT_COMPILE_COMMANDS AND NOT ${PROJECT_NAME}_BUILD_HEADERS_ONLY)
-  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+  add_custom_target(
+    copy-compile-commands ALL
+    ${CMAKE_COMMAND} -E copy_if_different
     ${CMAKE_BINARY_DIR}/compile_commands.json
-    ${CMAKE_SOURCE_DIR}/compile_commands.json)
+    ${CMAKE_CURRENT_LIST_DIR}
+  )
 endif()
