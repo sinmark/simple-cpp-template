@@ -120,16 +120,6 @@ endif()
 
 message(STATUS "Added all header and implementation files.\n")
 
-if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
-  target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
-else()
-  target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
-
-  if(${PROJECT_NAME}_BUILD_EXECUTABLE)
-    target_compile_features(${PROJECT_NAME}_LIB PUBLIC cxx_std_20)
-  endif()
-endif()
-
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(${PROJECT_NAME})
 
