@@ -57,7 +57,11 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
     endforeach()
   endif()
 
-  add_library(${PROJECT_NAME}_LIB ${headers} ${sources})
+  if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
+    add_library(${PROJECT_NAME}_LIB INTERFACE)
+  else()
+    add_library(${PROJECT_NAME}_LIB ${headers} ${sources})
+  endif()
 
   if(${PROJECT_NAME}_VERBOSE_OUTPUT)
     verbose_message("Found the following headers:")
@@ -118,13 +122,6 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
   )
 endif()
 
-message(STATUS "Added all header and implementation files.\n")
-
-include(cmake/CompilerWarnings.cmake)
-set_project_warnings(${PROJECT_NAME})
-
-verbose_message("Applied compiler warnings. Using standard ${CMAKE_CXX_STANDARD}.\n")
-
 # Project library reference
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
   set(PROJECT_LIBRARY ${PROJECT_NAME}_LIB)
@@ -133,6 +130,11 @@ else()
 endif()
 
 verbose_message("Project library reference: ${PROJECT_LIBRARY}\n")
+
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(${PROJECT_LIBRARY})
+
+verbose_message("Applied compiler warnings. Using standard ${CMAKE_CXX_STANDARD}.\n")
 
 #
 # Model project dependencies
@@ -178,7 +180,7 @@ verbose_message("Successfully added all dependencies and linked against them.")
 # Allow usage of header files in the `src` directory, but only for utilities
 if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
   target_include_directories(
-    ${PROJECT_NAME}
+    ${PROJECT_LIBRARY}
     INTERFACE
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

@@ -22,11 +22,7 @@ foreach(source ${test_sources})
 
   # Load the desired unit testing framework
   # Currently supported: GoogleTest (and GoogleMock), Catch2.
-  if(${CMAKE_PROJECT_NAME}_BUILD_EXECUTABLE)
-    set(${CMAKE_PROJECT_NAME}_TEST_LIB ${CMAKE_PROJECT_NAME}_LIB)
-  else()
-    set(${CMAKE_PROJECT_NAME}_TEST_LIB ${CMAKE_PROJECT_NAME})
-  endif()
+  set(${CMAKE_PROJECT_NAME}_TEST_LIB ${PROJECT_LIBRARY})
 
   if(${CMAKE_PROJECT_NAME}_USE_GTEST)
     find_package(GTest REQUIRED)
